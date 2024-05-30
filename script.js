@@ -1,8 +1,11 @@
 const color_arsenic = "#202020";
 const color_black = "#000000";
 const color_red = "#ff0000";
+
 const gridSize = 50;
 const lineWidth = 1;
+
+const renderDelay = 250;
 
 const container = document.querySelector(".container");
 const canvas = document.getElementById("canvas");
@@ -16,13 +19,86 @@ const width = container.clientWidth;
 canvas.height = height;
 canvas.width = width;
 
-const front = Array.from({ length: Math.floor(height / gridSize) }, () =>
+const rows = Math.floor(height / gridSize);
+const cols = Math.floor(width / gridSize);
+
+let front = Array.from({ length: rows }, () =>
 	new Array(Math.floor(width / gridSize)).fill(0)
 );
 
-const back = Array.from({ length: Math.floor(height / gridSize) }, () =>
+let back = Array.from({ length: cols }, () =>
 	new Array(Math.floor(width / gridSize)).fill(0)
 );
+
+var lastRender = -1;
+
+const mod = (a, b) => ((a % b) + b) % b;
+
+const countNbors = (cy, cx) => {
+	let nbors = 0;
+
+	for (let dy = -1; dy <= 1; dy++) {
+		for (let dx = -1; dx <= 1; dx++) {
+			if (dx === 0 && dy === 0) {
+				continue;
+			}
+
+			y = mod(cy + dy, rows);
+			x = mod(cx + dx, cols);
+
+			nbors += front[y][x];
+		}
+	}
+
+	return nbors;
+};
+
+// ref: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+// Any live cell with fewer than two live neighbors dies, as if by underpopulation.
+// Any live cell with two or three live neighbors lives on to the next generation.
+// Any live cell with more than three live neighbors dies, as if by overpopulation.
+// Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+const updateBuffer = () => {
+	for (let row = 0; row < rows; row++) {
+		for (let col = 0; col < cols; col++) {
+			const nbors = countNbors(row, col);
+			if (front[row][col] === 1) {
+				back[row][col] = nbors === 2 || nbors === 3 ? 1 : 0;
+			} else {
+				back[row][col] = nbors === 3 ? 1 : 0;
+			}
+		}
+	}
+
+	// swap the buffers
+	[front, back] = [back, front];
+};
+
+const draw = () => {
+	for (let y = 0; y < rows; y++) {
+		for (let x = 0; x < cols; x++) {
+			ctx.fillStyle = front[y][x] === 1 ? color_red : color_arsenic;
+
+			ctx.fillRect(
+				x * gridSize,
+				y * gridSize,
+				gridSize - lineWidth,
+				gridSize - lineWidth
+			);
+		}
+	}
+};
+
+const animate = (timestamp) => {
+	if (lastRender === -1) return;
+
+	updateBuffer();
+	draw();
+
+	lastRender = timestamp;
+
+	setTimeout(() => window.requestAnimationFrame(animate), renderDelay);
+};
 
 ctx.fillStyle = color_arsenic;
 ctx.fillRect(0, 0, width, height);
@@ -48,16 +124,27 @@ canvas.addEventListener("click", (e) => {
 	const y = Math.floor(e.offsetY / gridSize);
 	const x = Math.floor(e.offsetX / gridSize);
 
-	ctx.fillStyle = color_red;
-
 	front[y][x] = 1;
 
-	ctx.fillRect(
-		x * gridSize,
-		y * gridSize,
-		gridSize - lineWidth,
-		gridSize - lineWidth
+	draw();
+});
+
+document.getElementById("start").addEventListener("click", () => {
+	lastRender = 0;
+	window.requestAnimationFrame(animate);
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+	lastRender = -1;
+
+	// reset the buffer
+	front = Array.from({ length: rows }, () =>
+		new Array(Math.floor(width / gridSize)).fill(0)
 	);
 
-	console.log(front);
+	back = Array.from({ length: cols }, () =>
+		new Array(Math.floor(width / gridSize)).fill(0)
+	);
+
+	draw();
 });
