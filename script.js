@@ -75,6 +75,9 @@ const updateBuffer = () => {
 };
 
 const draw = () => {
+	ctx.lineWidth = lineWidth;
+	ctx.strokeStyle = color_black;
+
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < cols; x++) {
 			ctx.fillStyle = front[y][x] === 1 ? color_red : color_arsenic;
@@ -120,18 +123,21 @@ for (let row = 0; row <= height; row += gridSize) {
 	ctx.stroke();
 }
 
-canvas.addEventListener("click", (e) => {
+const handleGridClick = (e) => {
 	const y = Math.floor(e.offsetY / gridSize);
 	const x = Math.floor(e.offsetX / gridSize);
 
 	front[y][x] = 1;
 
 	draw();
-});
+};
 
-document.getElementById("start").addEventListener("click", () => {
+canvas.addEventListener("click", handleGridClick);
+
+document.getElementById("play").addEventListener("click", () => {
 	lastRender = 0;
 	window.requestAnimationFrame(animate);
+	canvas.removeEventListener("click", handleGridClick);
 });
 
 document.getElementById("reset").addEventListener("click", () => {
@@ -147,4 +153,5 @@ document.getElementById("reset").addEventListener("click", () => {
 	);
 
 	draw();
+	canvas.addEventListener("click", handleGridClick);
 });
