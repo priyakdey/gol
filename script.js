@@ -5,7 +5,7 @@ const color_red = "#ff0000";
 const gridSize = 50;
 const lineWidth = 1;
 
-const renderDelay = 250;
+let renderDelay = document.getElementById("delay").value;
 
 const container = document.querySelector(".container");
 const canvas = document.getElementById("canvas");
@@ -141,6 +141,7 @@ document.getElementById("play").addEventListener("click", () => {
 });
 
 document.getElementById("reset").addEventListener("click", () => {
+	// reset last render flag
 	lastRender = -1;
 
 	// reset the buffer
@@ -153,5 +154,17 @@ document.getElementById("reset").addEventListener("click", () => {
 	);
 
 	draw();
+
+	// add back handler for playing animation
 	canvas.addEventListener("click", handleGridClick);
+
+	// reset animation delay
+	const delayInput = document.getElementById("delay");
+	const defaultDelay = delayInput.getAttribute("default");
+	delayInput.value = defaultDelay;
+	renderDelay = defaultDelay;
 });
+
+document
+	.getElementById("delay")
+	.addEventListener("change", (e) => (renderDelay = e.target.value));
