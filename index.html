@@ -24,6 +24,31 @@
 					Reset
 				</button>
 
+				<div class="presetcontainer">
+					<label id="preset-label" for="preset">
+						<span id="preset-value">Presets</span>
+					</label>
+					<select id="preset" name="preset">
+						<option value="">Select a preset pattern</option>
+						<option value="block">Block (Still Life)</option>
+						<option value="beehive">Beehive (Still Life)</option>
+						<option value="loaf">Loaf (Still Life)</option>
+						<option value="boat">Boat (Still Life)</option>
+						<option value="longboat">Long Boat (Still Life)</option>
+						<option value="verylongboat">Very Long Boat (Still Life)</option>
+						<option value="cubiclongboat">Cubic Long Boat (Still Life)</option>
+						<option value="quadlongboat">
+							Quadractic Long Boat (Still Life)
+						</option>
+						<option value="blinker">Blinker (Oscillator)</option>
+						<option value="angel">Angel (Oscillator)</option>
+						<option value="toad">Toad (Oscillator)</option>
+						<option value="beacon">Beacon (Oscillator)</option>
+						<option value="glider">Glider (Spaceship)</option>
+						<option value="lwss">LWSS (Spaceship)</option>
+					</select>
+				</div>
+
 				<div class="slidercontainer">
 					<label id="delay-label" for="delay">
 						Delay &ThinSpace; <span id="delay-value"></span>
@@ -34,8 +59,8 @@
 						type="range"
 						min="10"
 						max="1000"
-						value="250"
-						default="250"
+						value="150"
+						default="150"
 						class="slider"
 					/>
 				</div>

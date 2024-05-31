@@ -76,6 +76,14 @@ const updateBuffer = () => {
 	[front, back] = [back, front];
 };
 
+const clearBuffer = (buf) => {
+	for (let row = 0; row < buf.length; row++) {
+		for (let col = 0; col < buf[row].length; col++) {
+			buf[row][col] = 0;
+		}
+	}
+};
+
 const draw = () => {
 	ctx.lineWidth = lineWidth;
 	ctx.strokeStyle = color_black;
@@ -126,6 +134,166 @@ for (let row = 0; row <= height; row += gridSize) {
 	ctx.stroke();
 }
 
+const setup = (preset) => {
+	clearBuffer(front);
+
+	const cy = Math.floor(rows / 2) - 1;
+	const cx = Math.floor(cols / 2) - 1;
+
+	switch (preset) {
+		case "block":
+			front[cy][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy + 1][cx + 1] = 1;
+			break;
+		case "beehive":
+			front[cy][cx - 1] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx + 1] = 1;
+			front[cy + 1][cx + 1] = 1;
+			front[cy][cx + 2] = 1;
+			break;
+		case "loaf":
+			front[cy][cx - 1] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx + 1] = 1;
+			front[cy + 2][cx + 1] = 1;
+			front[cy][cx + 2] = 1;
+			front[cy + 1][cx + 2] = 1;
+			break;
+		case "boat":
+			front[cy - 1][cx] = 1;
+			front[cy][cx - 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			break;
+		case "longboat":
+			front[cy][cx - 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy - 2][cx + 1] = 1;
+			front[cy - 1][cx + 2] = 1;
+			break;
+		case "verylongboat":
+			front[cy][cx - 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy - 2][cx + 1] = 1;
+			front[cy - 1][cx + 2] = 1;
+			front[cy - 3][cx + 2] = 1;
+			front[cy - 2][cx + 3] = 1;
+			break;
+		case "verylongboat":
+			front[cy][cx - 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy - 2][cx + 1] = 1;
+			front[cy - 1][cx + 2] = 1;
+			front[cy - 3][cx + 2] = 1;
+			front[cy - 2][cx + 3] = 1;
+			break;
+		case "cubiclongboat":
+			front[cy][cx - 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy - 2][cx + 1] = 1;
+			front[cy - 1][cx + 2] = 1;
+			front[cy - 3][cx + 2] = 1;
+			front[cy - 2][cx + 3] = 1;
+			front[cy - 4][cx + 3] = 1;
+			front[cy - 3][cx + 4] = 1;
+			break;
+		case "quadlongboat":
+			front[cy][cx - 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy - 2][cx + 1] = 1;
+			front[cy - 1][cx + 2] = 1;
+			front[cy - 3][cx + 2] = 1;
+			front[cy - 2][cx + 3] = 1;
+			front[cy - 4][cx + 3] = 1;
+			front[cy - 3][cx + 4] = 1;
+			front[cy - 5][cx + 4] = 1;
+			front[cy - 4][cx + 5] = 1;
+			break;
+		case "blinker":
+			front[cy][cx] = 1;
+			front[cy][cx - 1] = 1;
+			front[cy][cx + 1] = 1;
+			break;
+		case "angel":
+			front[cy - 1][cx] = 1;
+			front[cy][cx - 1] = 1;
+			front[cy][cx - 2] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy][cx + 2] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx + 1] = 1;
+			front[cy + 2][cx] = 1;
+			break;
+		case "toad":
+			front[cy][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy + 1][cx + 1] = 1;
+			front[cy + 2][cx + 1] = 1;
+			break;
+		case "beacon":
+			front[cy][cx + 1] = 1;
+			front[cy][cx + 2] = 1;
+			front[cy + 1][cx + 1] = 1;
+			front[cy + 1][cx + 2] = 1;
+			front[cy - 1][cx] = 1;
+			front[cy - 2][cx] = 1;
+			front[cy - 1][cx - 1] = 1;
+			front[cy - 2][cx - 1] = 1;
+			break;
+		case "glider":
+			front[cy - 1][cx] = 1;
+			front[cy][cx + 1] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy + 1][cx + 1] = 1;
+			break;
+		case "lwss":
+			front[cy][cx + 2] = 1;
+			front[cy - 2][cx + 2] = 1;
+			front[cy - 2][cx - 1] = 1;
+			front[cy - 1][cx - 2] = 1;
+			front[cy][cx - 2] = 1;
+			front[cy + 1][cx - 2] = 1;
+			front[cy + 1][cx - 1] = 1;
+			front[cy + 1][cx] = 1;
+			front[cy + 1][cx + 1] = 1;
+			break;
+		default:
+			// ignore and let user select from scratch
+			break;
+	}
+
+	draw();
+};
+
+const handlePresetChange = (e) => {
+	clearBuffer(front);
+	setup(e.target.value);
+};
+
 const handleGridClick = (e) => {
 	const y = Math.floor(e.offsetY / gridSize);
 	const x = Math.floor(e.offsetX / gridSize);
@@ -137,6 +305,17 @@ const handleGridClick = (e) => {
 
 canvas.addEventListener("click", handleGridClick);
 
+document
+	.getElementById("preset")
+	.addEventListener("change", handlePresetChange);
+
+document.getElementById("delay").addEventListener("input", (e) => {
+	renderDelay = e.target.value;
+	document.getElementById("delay-value").textContent = `${renderDelay}ms`;
+});
+
+document.getElementById("delay-value").textContent = `${renderDelay}ms`;
+
 document.getElementById("play").addEventListener("click", () => {
 	isAnimating = true;
 	lastRender = 0;
@@ -144,6 +323,11 @@ document.getElementById("play").addEventListener("click", () => {
 	window.requestAnimationFrame(animate);
 
 	canvas.removeEventListener("click", handleGridClick);
+
+	document
+		.getElementById("preset")
+		.removeEventListener("change", handlePresetChange);
+
 	document.getElementById("play").classList.add("display-none");
 	document.getElementById("pause").classList.remove("display-none");
 });
@@ -160,19 +344,19 @@ document.getElementById("reset").addEventListener("click", () => {
 	isAnimating = false;
 	lastRender = -1;
 
-	// reset the buffer
-	front = Array.from({ length: rows }, () =>
-		new Array(Math.floor(width / gridSize)).fill(0)
-	);
-
-	back = Array.from({ length: cols }, () =>
-		new Array(Math.floor(width / gridSize)).fill(0)
-	);
+	// reset the front buffer.
+	// clearing back buffer is not required as it serves for
+	// storing intermittent state
+	clearBuffer(front);
 
 	draw();
 
 	// add back handler for playing animation
 	canvas.addEventListener("click", handleGridClick);
+
+	document
+		.getElementById("preset")
+		.addEventListener("change", handlePresetChange);
 
 	// reset controls
 	document.getElementById("play").classList.remove("display-none");
@@ -185,10 +369,3 @@ document.getElementById("reset").addEventListener("click", () => {
 
 	document.getElementById("delay-value").textContent = `${renderDelay}ms`;
 });
-
-document.getElementById("delay").addEventListener("input", (e) => {
-	renderDelay = e.target.value;
-	document.getElementById("delay-value").textContent = `${renderDelay}ms`;
-});
-
-document.getElementById("delay-value").textContent = `${renderDelay}ms`;
