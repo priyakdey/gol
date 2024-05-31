@@ -184,6 +184,9 @@ document.getElementById("reset").addEventListener("click", () => {
 	renderDelay = defaultDelay;
 });
 
-document
-	.getElementById("delay")
-	.addEventListener("change", (e) => (renderDelay = e.target.value));
+document.getElementById("delay").addEventListener("input", (e) => {
+	renderDelay = e.target.value;
+	document.getElementById("delay-value").textContent = `${renderDelay}ms`;
+});
+
+document.getElementById("delay-value").textContent = `${renderDelay}ms`;

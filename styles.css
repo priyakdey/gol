@@ -115,9 +115,10 @@ body {
 	row-gap: 10px;
 }
 
-#delay-label {
-	font-size: 14px;
-	font-weight: 300;
+#delay-label,
+#delay-value {
+	font-size: 13px;
+	font-weight: 200;
 }
 
 .slider {
