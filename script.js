@@ -7,6 +7,8 @@ const lineWidth = 1;
 
 let renderDelay = document.getElementById("delay").value;
 
+let isAnimating = false;
+
 const container = document.querySelector(".container");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -93,6 +95,7 @@ const draw = () => {
 };
 
 const animate = (timestamp) => {
+	if (!isAnimating) return;
 	if (lastRender === -1) return;
 
 	updateBuffer();
@@ -135,13 +138,26 @@ const handleGridClick = (e) => {
 canvas.addEventListener("click", handleGridClick);
 
 document.getElementById("play").addEventListener("click", () => {
+	isAnimating = true;
 	lastRender = 0;
+
 	window.requestAnimationFrame(animate);
+
 	canvas.removeEventListener("click", handleGridClick);
+	document.getElementById("play").classList.toggle("display-none");
+	document.getElementById("pause").classList.toggle("display-none");
+});
+
+document.getElementById("pause").addEventListener("click", () => {
+	isAnimating = false;
+
+	document.getElementById("play").classList.toggle("display-none");
+	document.getElementById("pause").classList.toggle("display-none");
 });
 
 document.getElementById("reset").addEventListener("click", () => {
 	// reset last render flag
+	isAnimating = false;
 	lastRender = -1;
 
 	// reset the buffer
@@ -158,7 +174,10 @@ document.getElementById("reset").addEventListener("click", () => {
 	// add back handler for playing animation
 	canvas.addEventListener("click", handleGridClick);
 
-	// reset animation delay
+	// reset controls
+	document.getElementById("play").classList.toggle("display-none");
+	document.getElementById("pause").classList.toggle("display-none");
+
 	const delayInput = document.getElementById("delay");
 	const defaultDelay = delayInput.getAttribute("default");
 	delayInput.value = defaultDelay;

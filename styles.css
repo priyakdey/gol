@@ -96,6 +96,10 @@ body {
 	margin-top: 3px;
 }
 
+#pause img.icon {
+	margin-bottom: 5px;
+}
+
 .btn:active {
 	background-color: var(--dark-purple);
 	transform: translateY(2px);
@@ -163,4 +167,8 @@ body {
 
 .footer a:hover {
 	transform: scale(1.1);
+}
+
+.display-none {
+	display: none;
 }
