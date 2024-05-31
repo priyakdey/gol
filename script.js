@@ -144,15 +144,15 @@ document.getElementById("play").addEventListener("click", () => {
 	window.requestAnimationFrame(animate);
 
 	canvas.removeEventListener("click", handleGridClick);
-	document.getElementById("play").classList.toggle("display-none");
-	document.getElementById("pause").classList.toggle("display-none");
+	document.getElementById("play").classList.add("display-none");
+	document.getElementById("pause").classList.remove("display-none");
 });
 
 document.getElementById("pause").addEventListener("click", () => {
 	isAnimating = false;
 
-	document.getElementById("play").classList.toggle("display-none");
-	document.getElementById("pause").classList.toggle("display-none");
+	document.getElementById("play").classList.remove("display-none");
+	document.getElementById("pause").classList.add("display-none");
 });
 
 document.getElementById("reset").addEventListener("click", () => {
@@ -175,13 +175,15 @@ document.getElementById("reset").addEventListener("click", () => {
 	canvas.addEventListener("click", handleGridClick);
 
 	// reset controls
-	document.getElementById("play").classList.toggle("display-none");
-	document.getElementById("pause").classList.toggle("display-none");
+	document.getElementById("play").classList.remove("display-none");
+	document.getElementById("pause").classList.add("display-none");
 
 	const delayInput = document.getElementById("delay");
 	const defaultDelay = delayInput.getAttribute("default");
 	delayInput.value = defaultDelay;
 	renderDelay = defaultDelay;
+
+	document.getElementById("delay-value").textContent = `${renderDelay}ms`;
 });
 
 document.getElementById("delay").addEventListener("input", (e) => {
